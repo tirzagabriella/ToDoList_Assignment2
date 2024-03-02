@@ -6,7 +6,7 @@ export default function Splash() {
   const navigate = useNavigate();
 
   const navToHome = () => {
-    navigate("/ToDoList_TAWeek2/home");
+    navigate("/home");
   };
 
   return (

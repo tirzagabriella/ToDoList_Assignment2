@@ -55,7 +55,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const navtoSplash = () => {
-    navigate("/ToDoList_TAWeek2/");
+    navigate("/");
   };
 
   const handleDateChange = (newValue) => {

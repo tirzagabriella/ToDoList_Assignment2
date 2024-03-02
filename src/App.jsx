@@ -9,11 +9,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/ToDoList_TAWeek2/",
+      path: "/",
       element: <Splash />,
     },
     {
-      path: "/ToDoList_TAWeek2/home",
+      path: "/home",
       element: <Home />,
     },
   ]);
