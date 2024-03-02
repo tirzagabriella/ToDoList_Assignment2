@@ -17,7 +17,9 @@ export default function Splash() {
           <span className="text-lg font-medium text-gray-900 dark:text-white">
             Get <span class="italic">Organized</span> With Your Life !!!
           </span>
-          <p>to-do list and task manager app which help you manage time</p>
+          <p style={{ textAlign: "center" }}>
+            to-do list and task manager app which help you manage time
+          </p>
           <button
             className="bg-pink-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4"
             onClick={navToHome}
