@@ -22,8 +22,27 @@ export default function Home() {
   const [editedId, setEditedId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("All");
   const [datetimeState, setdatetimeState] = useState(dayjs());
+  // const [dataChangeState, setDataChangeState] = useState("");
+
+  // useEffect(() => {
+  //   console.log("SET");
+  //   localStorage.setItem("todolist", JSON.stringify(todos));
+
+  //   console.log("triggered on ", dataChangeState);
+  // }, [dataChangeState]);
 
   useEffect(() => {
+    const currTodoFromStorage = localStorage.getItem("todolist");
+    console.log("curr todo from useeffect 1 : ", currTodoFromStorage);
+    if (currTodoFromStorage) {
+      setTodos(JSON.parse(currTodoFromStorage));
+    }
+  }, []);
+
+  useEffect(() => {
+    // const currTodoFromStorage = localStorage.getItem("todolist");
+    // console.log("curr todo : ", currTodoFromStorage);
+
     let filteredTodos = todos;
 
     switch (filterStatus) {
@@ -83,8 +102,21 @@ export default function Home() {
       ];
     });
 
+    const newData = JSON.stringify([
+      ...todos,
+      {
+        id: crypto.randomUUID(),
+        title: newItem,
+        completed: false,
+        datetime: datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
+      },
+    ]);
+
+    localStorage.setItem("todolist", newData);
+
     setNewItem(""); // set the box into "" after clicking add button
     setdatetimeState(dayjs());
+    // setDataChangeState("submit");
   }
 
   function toggleTodo(id, completed) {
@@ -116,15 +148,35 @@ export default function Home() {
       });
     });
 
+    const newData = JSON.stringify(
+      todos.map((todo) => {
+        if (todo.id == editedId) {
+          return { ...todo, title: newValue };
+        }
+
+        return todo;
+      })
+    );
+
+    localStorage.setItem("todolist", newData);
+
     setEditedValue("");
 
     toggle();
+
+    // setDataChangeState("edit");
   }
 
   function deleteTodo(id) {
     setTodos((currentTodos) => {
       return currentTodos.filter((todo) => todo.id !== id);
     });
+
+    // setDataChangeState("delete");
+
+    const newData = JSON.stringify(todos.filter((todo) => todo.id !== id));
+
+    localStorage.setItem("todolist", newData);
   }
 
   return (

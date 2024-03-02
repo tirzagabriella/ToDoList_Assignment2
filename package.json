@@ -5,8 +5,7 @@
   "type": "module",
   "homepage": "https://tirzagabriella.github.io/ToDoList_Week2/",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "vercel-deploy": "npx vercel --prod --skip-domain",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
