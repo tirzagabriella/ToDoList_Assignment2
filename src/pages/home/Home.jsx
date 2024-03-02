@@ -129,6 +129,18 @@ export default function Home() {
         return todo;
       });
     });
+
+    const newData = JSON.stringify(
+      todos.map((todo) => {
+        if (todo.id == id) {
+          return { ...todo, completed };
+        }
+
+        return todo;
+      })
+    );
+
+    localStorage.setItem("todolist", newData);
   }
 
   function editTodo(id, title) {
