@@ -18,6 +18,7 @@ Currently, two official plugins are available:
   - [What I learned](#what-i-learned)
   - [Useful resources](#useful-resources)
 - [Author](#author)
+- [Link](#link)
 
 ## Overview
 
@@ -70,3 +71,7 @@ Users should be able to:
 
 Tirza Gabriella (2602109870)
 Computer Science Student at Binus University
+
+## Link
+
+https://to-do-list-assignment2-74avki8qu-tirzagabriellas-projects.vercel.app
