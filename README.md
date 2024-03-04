@@ -40,6 +40,7 @@ Users should be able to:
 - Use libraries for some components
 - Use routing library
 - Implemented datetime picker using MUI X
+- Implemented local-storage
 
 ### Built with
 
