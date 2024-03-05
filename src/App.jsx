@@ -2,6 +2,8 @@ import { useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Splash from "./pages/splash/Splash";
 import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Signup from "./pages/signup/Signup";
 import "./App.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,6 +17,14 @@ function App() {
     {
       path: "/home",
       element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/signup",
+      element: <Signup />,
     },
   ]);
 
