@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { auth, logout } from "../../services/firebase-auth";
-import { addTask, editTask, getTasks } from "../../services/todo";
+import { addTask, deleteTask, editTask, getTasks } from "../../services/todo";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -167,9 +167,7 @@ export default function Home() {
       return currentTodos.filter((todo) => todo.id !== id);
     });
 
-    const newData = JSON.stringify(todos.filter((todo) => todo.id !== id));
-
-    localStorage.setItem("todolist", newData);
+    deleteTask(id);
   }
 
   const onSignOut = () => {

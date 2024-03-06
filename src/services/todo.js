@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "./firebase-auth";
 
 export const getTasks = async (user) => {
@@ -49,3 +49,11 @@ export const editTask = async (taskId, title, completed) => {
     console.log("Error updating data : ", error);
   }
 };
+
+export const deleteTask = async (taskId) => {
+  try {
+    await deleteDoc(doc(db, "tasks", taskId));
+  } catch (error) {
+    console.log("Error deleting task : ", error)
+  }
+}
