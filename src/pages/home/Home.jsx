@@ -42,7 +42,11 @@ export default function Home() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        populateTodolist();
+        // populateTodolist();
+        const currTodoFromStorage = localStorage.getItem("todolist");
+        if (currTodoFromStorage) {
+          setTodos(JSON.parse(currTodoFromStorage));
+        }
       } else {
         onSignOut();
       }
