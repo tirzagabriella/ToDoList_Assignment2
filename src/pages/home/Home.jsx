@@ -12,7 +12,8 @@ import dayjs from "dayjs";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { logout } from "../../services/firebase";
+import { auth, logout } from "../../services/firebase-auth";
+import { getTasks } from "../../services/todo";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -33,19 +34,25 @@ export default function Home() {
     navigate("/");
   };
 
-  const navToLogin = () => {
-    navigate("/login");
+  const populateTodolist = async () => {
+    const tasks = await getTasks();
+    setTodos(tasks);
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("authToken")) {
-      navToLogin();
-    }
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("Logged in as : ", user);
+        populateTodolist();
+      } else {
+        onSignOut();
+      }
+    });
 
-    const currTodoFromStorage = localStorage.getItem("todolist");
-    if (currTodoFromStorage) {
-      setTodos(JSON.parse(currTodoFromStorage));
-    }
+    // const currTodoFromStorage = localStorage.getItem("todolist");
+    // if (currTodoFromStorage) {
+    //   setTodos(JSON.parse(currTodoFromStorage));
+    // }
   }, []);
 
   useEffect(() => {
@@ -53,11 +60,9 @@ export default function Home() {
 
     switch (filterStatus) {
       case "All":
-        console.log("Selected All");
         filteredTodos = todos;
         break;
       case "Complete":
-        console.log("Selected Complete");
         filteredTodos = todos.filter((obj) => {
           if (obj.completed) {
             return obj;
@@ -65,7 +70,6 @@ export default function Home() {
         });
         break;
       case "Incomplete":
-        console.log("Selected Incomplete");
         filteredTodos = todos.filter((obj) => {
           if (!obj.completed) {
             return obj;

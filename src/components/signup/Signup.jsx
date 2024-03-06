@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signupFields } from "../../constants/formFields";
 import FormAction from "../../components/formextra/FormAction";
 import Input from "../../components/input/input";
-import { registerWithEmailAndPassword } from "../../services/firebase";
+import { registerWithEmailAndPassword } from "../../services/firebase-auth";
 import { useNavigate } from "react-router-dom";
 
 const fields = signupFields;
