@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { logout } from "../../../firebase";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -25,27 +26,29 @@ export default function Home() {
   const [editedId, setEditedId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("All");
   const [datetimeState, setdatetimeState] = useState(dayjs());
-  // const [dataChangeState, setDataChangeState] = useState("");
 
-  // useEffect(() => {
-  //   console.log("SET");
-  //   localStorage.setItem("todolist", JSON.stringify(todos));
+  const navigate = useNavigate();
 
-  //   console.log("triggered on ", dataChangeState);
-  // }, [dataChangeState]);
+  const navtoSplash = () => {
+    navigate("/");
+  };
+
+  const navToLogin = () => {
+    navigate("/login");
+  };
 
   useEffect(() => {
+    if (!localStorage.getItem("authToken")) {
+      navToLogin();
+    }
+
     const currTodoFromStorage = localStorage.getItem("todolist");
-    console.log("curr todo from useeffect 1 : ", currTodoFromStorage);
     if (currTodoFromStorage) {
       setTodos(JSON.parse(currTodoFromStorage));
     }
   }, []);
 
   useEffect(() => {
-    // const currTodoFromStorage = localStorage.getItem("todolist");
-    // console.log("curr todo : ", currTodoFromStorage);
-
     let filteredTodos = todos;
 
     switch (filterStatus) {
@@ -73,12 +76,6 @@ export default function Home() {
 
     setShownTodos(filteredTodos);
   }, [todos, filterStatus]);
-
-  const navigate = useNavigate();
-
-  const navtoSplash = () => {
-    navigate("/");
-  };
 
   const handleDateChange = (newValue) => {
     setdatetimeState(newValue);
@@ -178,8 +175,6 @@ export default function Home() {
     setEditedValue("");
 
     toggle();
-
-    // setDataChangeState("edit");
   }
 
   function deleteTodo(id) {
@@ -187,21 +182,25 @@ export default function Home() {
       return currentTodos.filter((todo) => todo.id !== id);
     });
 
-    // setDataChangeState("delete");
-
     const newData = JSON.stringify(todos.filter((todo) => todo.id !== id));
 
     localStorage.setItem("todolist", newData);
   }
 
+  const onSignOut = () => {
+    logout();
+    localStorage.removeItem("authToken");
+    navtoSplash();
+  };
+
   return (
     <>
-      <button
-        className="bg-pink-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-4"
-        onClick={navtoSplash}
+      <div
+        className="flex flex-row cursor-pointer m-4"
+        onClick={() => onSignOut()}
       >
-        Back
-      </button>
+        <span>Sign Out</span>
+      </div>
 
       <AddItemForm
         handleSubmit={handleSubmit}
