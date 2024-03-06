@@ -172,7 +172,6 @@ export default function Home() {
 
   const onSignOut = () => {
     logout();
-    localStorage.removeItem("authToken");
     navtoSplash();
   };
 

@@ -35,8 +35,6 @@ export default function Login() {
         loginState["password"]
       );
 
-      localStorage.setItem("authToken", res.user.accessToken);
-
       navToHome();
     } catch (err) {
       console.error(err);
