@@ -1,6 +1,5 @@
-// import { getAuth } from "firebase-admin/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "./firebase-auth";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "./firebase-auth";
 
 export const getTasks = async (user) => {
   try {
@@ -9,19 +8,33 @@ export const getTasks = async (user) => {
     const q = query(tasksRef, where("userId", "==", uid));
     const querySnapshot = await getDocs(q);
 
-    let res = []
+    let res = [];
     querySnapshot.forEach((doc) => {
       res.push({
         id: doc.id,
         title: doc.data()["task"],
         completed: doc.data()["completed"],
-        datetime: doc.data()["datetime"]
-      })
+        datetime: doc.data()["datetime"],
+      });
     });
 
     return res;
   } catch (error) {
     console.log(error);
-    throw new Error(error)
+    throw new Error(error);
+  }
+};
+
+export const addTask = async (task, datetime, uid) => {
+  try {
+    const docRef = await addDoc(collection(db, "tasks"), {
+      task: task,
+      completed: false,
+      datetime: datetime,
+      userId: uid,
+    });
+    // console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.log("Error adding task : ", error);
   }
 };

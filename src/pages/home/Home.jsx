@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { auth, logout } from "../../services/firebase-auth";
-import { getTasks } from "../../services/todo";
+import { addTask, getTasks } from "../../services/todo";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -27,6 +27,7 @@ export default function Home() {
   const [editedId, setEditedId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("All");
   const [datetimeState, setdatetimeState] = useState(dayjs());
+  const [loggedInUser, setLoggedInUser] = useState();
 
   const navigate = useNavigate();
 
@@ -42,17 +43,18 @@ export default function Home() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // populateTodolist(user);
+        setLoggedInUser(user);
+        populateTodolist(user);
         // console.log(user);
         // console.log("user id : ", user.uid);
         // console.log("display name : ", user.displayName);
         // console.log("display email : ", user.email);
         // console.log("display phone number : ", user.phoneNumber);
         // console.log("display photo url : ", user.photoURL);
-        const currTodoFromStorage = localStorage.getItem("todolist");
-        if (currTodoFromStorage) {
-          setTodos(JSON.parse(currTodoFromStorage));
-        }
+        // const currTodoFromStorage = localStorage.getItem("todolist");
+        // if (currTodoFromStorage) {
+        //   setTodos(JSON.parse(currTodoFromStorage));
+        // }
       } else {
         onSignOut();
       }
@@ -110,17 +112,23 @@ export default function Home() {
       ];
     });
 
-    const newData = JSON.stringify([
-      ...todos,
-      {
-        id: crypto.randomUUID(),
-        title: newItem,
-        completed: false,
-        datetime: datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
-      },
-    ]);
+    // const newData = JSON.stringify([
+    //   ...todos,
+    //   {
+    //     id: crypto.randomUUID(),
+    //     title: newItem,
+    //     completed: false,
+    //     datetime: datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
+    //   },
+    // ]);
 
-    localStorage.setItem("todolist", newData);
+    // localStorage.setItem("todolist", newData);
+
+    addTask(
+      newItem,
+      datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
+      loggedInUser.uid
+    );
 
     setNewItem(""); // set the box into "" after clicking add button
     setdatetimeState(dayjs());
