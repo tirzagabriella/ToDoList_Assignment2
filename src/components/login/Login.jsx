@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { loginFields } from "../../constants/formFields";
 import FormAction from "../../components/formextra/FormAction";
-import FormExtra from "../../components/formextra/FormExtra";
+// import FormExtra from "../../components/formextra/FormExtra";
 import Input from "../../components/input/input";
+import { logInWithEmailAndPassword } from "../../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const fields = loginFields;
 let fieldsState = {};
@@ -10,6 +12,11 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Login() {
   const [loginState, setLoginState] = useState(fieldsState);
+  const navigate = useNavigate();
+
+  const navToHome = () => {
+    navigate("/home"); // Redirect to the login page instead of the home page
+  };
 
   const handleChange = (e) => {
     setLoginState({ ...loginState, [e.target.id]: e.target.value });
@@ -21,10 +28,24 @@ export default function Login() {
   };
 
   //Handle Login API Integration here
-  const authenticateUser = () => {};
+  const authenticateUser = async () => {
+    try {
+      const res = await logInWithEmailAndPassword(
+        loginState["email"],
+        loginState["password"]
+      );
+
+      localStorage.setItem("authToken", res.user.accessToken);
+
+      navToHome();
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+    <form className="mt-8 space-y-6 mx-4" onSubmit={handleSubmit}>
       <div className="-space-y-px">
         {fields.map((field) => (
           <Input
