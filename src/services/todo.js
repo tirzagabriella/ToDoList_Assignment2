@@ -9,7 +9,6 @@ export const getTasks = async () => {
     const tasksRef = collection(db, "tasks");
     const q = query(tasksRef, where("userId", "==", uid));
     const querySnapshot = await getDocs(q);
-    
 
     let res = []
     querySnapshot.forEach((doc) => {
@@ -20,8 +19,6 @@ export const getTasks = async () => {
         datetime: doc.data()["datetime"]
       })
     });
-
-    console.log(res)
 
     return res;
   } catch (error) {
