@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { auth, logout } from "../../services/firebase-auth";
-import { addTask, getTasks } from "../../services/todo";
+import { addTask, editTask, getTasks } from "../../services/todo";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -45,16 +45,6 @@ export default function Home() {
       if (user) {
         setLoggedInUser(user);
         populateTodolist(user);
-        // console.log(user);
-        // console.log("user id : ", user.uid);
-        // console.log("display name : ", user.displayName);
-        // console.log("display email : ", user.email);
-        // console.log("display phone number : ", user.phoneNumber);
-        // console.log("display photo url : ", user.photoURL);
-        // const currTodoFromStorage = localStorage.getItem("todolist");
-        // if (currTodoFromStorage) {
-        //   setTodos(JSON.parse(currTodoFromStorage));
-        // }
       } else {
         onSignOut();
       }
@@ -176,17 +166,23 @@ export default function Home() {
       });
     });
 
-    const newData = JSON.stringify(
-      todos.map((todo) => {
-        if (todo.id == editedId) {
-          return { ...todo, title: newValue };
-        }
+    // const newData = JSON.stringify(
+    //   todos.map((todo) => {
+    //     if (todo.id == editedId) {
+    //       return { ...todo, title: newValue };
+    //     }
 
-        return todo;
-      })
-    );
+    //     return todo;
+    //   })
+    // );
 
-    localStorage.setItem("todolist", newData);
+    // localStorage.setItem("todolist", newData);
+
+    todos.forEach((todo) => {
+      if (todo.id == editedId) {
+        editTask(editedId, newValue, todo.completed);
+      }
+    });
 
     setEditedValue("");
 

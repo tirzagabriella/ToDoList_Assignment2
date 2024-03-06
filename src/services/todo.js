@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "./firebase-auth";
 
 export const getTasks = async (user) => {
@@ -36,5 +36,16 @@ export const addTask = async (task, datetime, uid) => {
     // console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.log("Error adding task : ", error);
+  }
+};
+
+export const editTask = async (taskId, title, completed) => {
+  try {
+    await updateDoc(doc(db, "tasks", taskId), {
+      task: title,
+      completed: completed
+    });
+  } catch (error) {
+    console.log("Error updating data : ", error);
   }
 };
