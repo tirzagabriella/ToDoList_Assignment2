@@ -35,6 +35,10 @@ export default function Home() {
     navigate("/");
   };
 
+  const navToProfile = () => {
+    navigate("/profile");
+  };
+
   const populateTodolist = async (user) => {
     const tasks = await getTasks(user);
     setTodos(tasks);
@@ -183,7 +187,12 @@ export default function Home() {
       >
         <span>Sign Out</span>
       </div>
-
+      <div
+        className="flex flex-row cursor-pointer m-4"
+        onClick={() => navToProfile()}
+      >
+        <span>Profile</span>
+      </div>
       <AddItemForm
         handleSubmit={handleSubmit}
         newItem={newItem}

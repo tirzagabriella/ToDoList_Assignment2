@@ -144,3 +144,10 @@ body {
 .list li:has(input:checked) label:hover::before {
   background: hsl(200, 100%, 30%);
 }
+
+.profile-pic {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 50px;
+}

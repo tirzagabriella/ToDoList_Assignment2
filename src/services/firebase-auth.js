@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile as firebaseUpdateProfile,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -16,13 +17,14 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyC32p4sfYt_wuxAUupk9xAQWEJeLoBqp_8",
   authDomain: "todolist-app-601a4.firebaseapp.com",
   projectId: "todolist-app-601a4",
-  storageBucket: "todolist-app-601a4.appspot.com",
+  storageBucket: "gs://todolist-app-601a4.appspot.com",
   messagingSenderId: "532201738628",
   appId: "1:532201738628:web:8c09d9ca1ff20f61c84dd1",
   measurementId: "G-B3FN9LBN5D",
@@ -30,6 +32,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const st = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
@@ -61,6 +64,10 @@ const logInWithEmailAndPassword = async (email, password) => {
     console.error(err);
     alert(err.message);
   }
+};
+
+export const updateProfile = async (user, newProfile) => {
+  return firebaseUpdateProfile(user, newProfile);
 };
 
 const registerWithEmailAndPassword = async (name, email, password) => {
@@ -96,6 +103,7 @@ const logout = () => {
 export {
   auth,
   db,
+  st,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

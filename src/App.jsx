@@ -7,6 +7,7 @@ import Signup from "./pages/signup/Signup";
 import "./App.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +26,10 @@ function App() {
     {
       path: "/signup",
       element: <Signup />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
     },
   ]);
 
