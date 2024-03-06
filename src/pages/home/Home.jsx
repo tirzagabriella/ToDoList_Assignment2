@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { logout } from "../../../firebase";
+import { logout } from "../../services/firebase";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
