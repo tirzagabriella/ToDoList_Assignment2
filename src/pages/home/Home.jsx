@@ -102,18 +102,7 @@ export default function Home() {
       ];
     });
 
-    // const newData = JSON.stringify([
-    //   ...todos,
-    //   {
-    //     id: crypto.randomUUID(),
-    //     title: newItem,
-    //     completed: false,
-    //     datetime: datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
-    //   },
-    // ]);
-
-    // localStorage.setItem("todolist", newData);
-
+    // add to firebase
     addTask(
       newItem,
       datetimeState.format("ddd, YYYY-MM-DD HH:mm"),
@@ -136,17 +125,12 @@ export default function Home() {
       });
     });
 
-    const newData = JSON.stringify(
-      todos.map((todo) => {
-        if (todo.id == id) {
-          return { ...todo, completed };
-        }
-
-        return todo;
-      })
-    );
-
-    localStorage.setItem("todolist", newData);
+    // update at firebase
+    todos.forEach((todo) => {
+      if (todo.id == id) {
+        editTask(id, todo.title, completed);
+      }
+    });
   }
 
   function editTodo(id, title) {
@@ -166,18 +150,7 @@ export default function Home() {
       });
     });
 
-    // const newData = JSON.stringify(
-    //   todos.map((todo) => {
-    //     if (todo.id == editedId) {
-    //       return { ...todo, title: newValue };
-    //     }
-
-    //     return todo;
-    //   })
-    // );
-
-    // localStorage.setItem("todolist", newData);
-
+    // edit task at firebase
     todos.forEach((todo) => {
       if (todo.id == editedId) {
         editTask(editedId, newValue, todo.completed);
