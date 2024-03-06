@@ -34,15 +34,21 @@ export default function Home() {
     navigate("/");
   };
 
-  const populateTodolist = async () => {
-    const tasks = await getTasks();
+  const populateTodolist = async (user) => {
+    const tasks = await getTasks(user);
     setTodos(tasks);
   };
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // populateTodolist();
+        // populateTodolist(user);
+        // console.log(user);
+        // console.log("user id : ", user.uid);
+        // console.log("display name : ", user.displayName);
+        // console.log("display email : ", user.email);
+        // console.log("display phone number : ", user.phoneNumber);
+        // console.log("display photo url : ", user.photoURL);
         const currTodoFromStorage = localStorage.getItem("todolist");
         if (currTodoFromStorage) {
           setTodos(JSON.parse(currTodoFromStorage));

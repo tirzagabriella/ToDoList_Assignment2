@@ -2,10 +2,9 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "./firebase-auth";
 
-export const getTasks = async () => {
+export const getTasks = async (user) => {
   try {
-    const uid = auth.currentUser.uid;
-
+    const uid = user.uid;
     const tasksRef = collection(db, "tasks");
     const q = query(tasksRef, where("userId", "==", uid));
     const querySnapshot = await getDocs(q);
