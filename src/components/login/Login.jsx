@@ -3,7 +3,7 @@ import { loginFields } from "../../constants/formFields";
 import FormAction from "../../components/formextra/FormAction";
 // import FormExtra from "../../components/formextra/FormExtra";
 import Input from "../../components/input/input";
-import { logInWithEmailAndPassword } from "../../../firebase";
+import { logInWithEmailAndPassword } from "../../services/firebase";
 import { useNavigate } from "react-router-dom";
 
 const fields = loginFields;
