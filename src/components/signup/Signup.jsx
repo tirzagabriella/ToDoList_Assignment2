@@ -2,6 +2,8 @@ import { useState } from "react";
 import { signupFields } from "../../constants/formFields";
 import FormAction from "../../components/formextra/FormAction";
 import Input from "../../components/input/input";
+import { registerWithEmailAndPassword } from "../../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const fields = signupFields;
 let fieldsState = {};
@@ -10,6 +12,11 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
+  const navigate = useNavigate();
+
+  const navToLogin = () => {
+    navigate("/login"); // Redirect to the login page instead of the home page
+  };
 
   const handleChange = (e) =>
     setSignupState({ ...signupState, [e.target.id]: e.target.value });
@@ -21,10 +28,25 @@ export default function Signup() {
   };
 
   //handle Signup API Integration here
-  const createAccount = () => {};
+  const createAccount = async () => {
+    try {
+      const res = await registerWithEmailAndPassword(
+        signupState["username"],
+        signupState["email"],
+        signupState["password"]
+      );
+
+      console.log("Registered : ", res);
+
+      navToLogin();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+    <form className="mt-8 space-y-6 mx-4" onSubmit={handleSubmit}>
       <div className="">
         {fields.map((field) => (
           <Input
