@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import AddItemForm from "../../components/form/AddItemForm";
-import ToDoList from "../../components/list/ToDoList";
-import Modal from "../../components/modal/Modal";
+import AddItemForm from "../../components/dashboard/form/AddItemForm";
+import ToDoList from "../../components/dashboard/list/ToDoList";
+import Modal from "../../components/dashboard/modal/Modal";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
@@ -12,8 +12,10 @@ import dayjs from "dayjs";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { auth, logout } from "../../services/firebase-auth";
+import { auth, logout, st } from "../../services/firebase-auth";
 import { addTask, deleteTask, editTask, getTasks } from "../../services/todo";
+import { DashboardUserDetail } from "../../components/dashboard/DashboardUserDetail";
+import { getDownloadURL, ref } from "firebase/storage";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,6 +30,7 @@ export default function Home() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [datetimeState, setdatetimeState] = useState(dayjs());
   const [loggedInUser, setLoggedInUser] = useState();
+  const [profilePic, setProfilePic] = useState(null);
 
   const navigate = useNavigate();
 
@@ -44,12 +47,23 @@ export default function Home() {
     setTodos(tasks);
   };
 
+  const fetchProfilePic = async (userId) => {
+    try {
+      const uri = await getDownloadURL(ref(st, `profile-pics/${userId}`));
+      setProfilePic(uri);
+    } catch (error) {
+      console.error("Error fetching profile picture:", error);
+    }
+  };
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        fetchProfilePic(user.uid);
         setLoggedInUser(user);
         populateTodolist(user);
       } else {
+        setProfilePic(null);
         onSignOut();
       }
     });
@@ -181,18 +195,28 @@ export default function Home() {
 
   return (
     <>
-      <div
-        className="flex flex-row cursor-pointer m-4"
-        onClick={() => onSignOut()}
-      >
-        <span>Sign Out</span>
+      <div className="flex align-center justify-between">
+        <DashboardUserDetail
+          profilePic={profilePic}
+          user={loggedInUser}
+          onClickUser={() => navToProfile()}
+        />
+        <div className="flex">
+          <div
+            className="flex items-center cursor-pointer m-4"
+            onClick={() => navToProfile()}
+          >
+            <span>My Profile</span>
+          </div>
+          <div
+            className="flex items-center cursor-pointer m-4"
+            onClick={() => onSignOut()}
+          >
+            <span>Sign Out</span>
+          </div>
+        </div>
       </div>
-      <div
-        className="flex flex-row cursor-pointer m-4"
-        onClick={() => navToProfile()}
-      >
-        <span>Profile</span>
-      </div>
+
       <AddItemForm
         handleSubmit={handleSubmit}
         newItem={newItem}

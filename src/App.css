@@ -151,3 +151,10 @@ body {
   object-fit: cover;
   border-radius: 50px;
 }
+
+.user-pic {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: 100px;
+}
