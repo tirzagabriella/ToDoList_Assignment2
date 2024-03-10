@@ -3,7 +3,10 @@ import { loginFields } from "../../constants/formFields";
 import FormAction from "../../components/formextra/FormAction";
 // import FormExtra from "../../components/formextra/FormExtra";
 import Input from "../../components/input/input";
-import { logInWithEmailAndPassword } from "../../services/firebase-auth";
+import {
+  logInWithEmailAndPassword,
+  signInWithGoogle,
+} from "../../services/firebase-auth";
 import { useNavigate } from "react-router-dom";
 
 const fields = loginFields;
@@ -27,14 +30,23 @@ export default function Login() {
     authenticateUser();
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      navToHome();
+    } catch (error) {
+      console.error(error);
+      alert(err.message);
+    }
+  };
+
   //Handle Login API Integration here
   const authenticateUser = async () => {
     try {
-      const res = await logInWithEmailAndPassword(
+      await logInWithEmailAndPassword(
         loginState["email"],
         loginState["password"]
       );
-
       navToHome();
     } catch (err) {
       console.error(err);
@@ -63,6 +75,12 @@ export default function Login() {
 
       {/* <FormExtra /> */}
       <FormAction handleSubmit={handleSubmit} text="Login" />
+      <button
+        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-10"
+        onClick={() => handleGoogleLogin()}
+      >
+        Sign in with Google
+      </button>
     </form>
   );
 }
