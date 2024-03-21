@@ -16,6 +16,7 @@ Currently, two official plugins are available:
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
+  - [Docker](#docker)
   - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Link](#link)
@@ -59,6 +60,22 @@ Users should be able to:
 - Use react state (like "filtering" in this case)
 
 - Styling using tailwind
+
+### Docker
+
+- install docker desktop
+
+- install docker CLI
+
+- create Dockerfile
+
+- create docker image : docker build . -t "todolist-assignment:v1.0"
+
+- to run image (into a container) : docker run -d -p 5173:5173 todolist-assignment:v1.0
+
+- to change the tag (we'll need this especially when using dockerhub, in order to match the user at dockerhub at the repo) : docker tag todolist-assignment:v1.0 tirzagabriella20/todolist-assignment:v1.0
+
+- to push to dockerhub : docker push tirzagabriella20/todolist-assignment:v1.0
 
 ### Useful resources
 
