@@ -71,7 +71,7 @@ Users should be able to:
 
 - create docker image : docker build . -t "todolist-assignment:v1.0"
 
-- to run image (into a container) : docker run -d -p 5173:5173 todolist-assignment:v1.0
+- to run image in the background (inside a container) : docker run -d -p 5173:5173 todolist-assignment:v1.0
 
 - to change the tag (we'll need this especially when using dockerhub, in order to match the user at dockerhub at the repo) : docker tag todolist-assignment:v1.0 tirzagabriella20/todolist-assignment:v1.0
 
